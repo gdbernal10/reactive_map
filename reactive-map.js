@@ -1,4 +1,4 @@
-Markers = new Mongo.Collection('markers');
+Markers = new Mongo.Collection('perros_loc');
 
 if (Meteor.isClient) {
     Template.map.onCreated(function () {
@@ -14,21 +14,19 @@ if (Meteor.isClient) {
                 added: function (document) {
                     var marker = new google.maps.Marker({
                         animation: google.maps.Animation.DROP,
-                        position: new google.maps.LatLng(document.lat, document.lng),
+                        position: new google.maps.LatLng(document.lat, document.log),
                         map: map.instance,
                         id: document._id
                     });
 
                     GoogleMaps.maps.exampleMap.instance.setCenter(
-                        new google.maps.LatLng(document.lat, document.lng)
+                        new google.maps.LatLng(document.lat, document.log)
                     );
                     markers[document._id] = marker;
                 }
             });
         });
     });
-
-    Meteor.set
 
     Meteor.startup(function () {
         GoogleMaps.load({

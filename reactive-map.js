@@ -14,10 +14,11 @@ if (Meteor.isClient) {
                 added: function (document) {
 					var time = Date.now();
 					var contentString = '<div style="width:300px;">' + 
-					'<div>Time-Mosquitto:' + document.timeM + '</div><br/>' + 
+					'<div>Time-Mosquitto:' + document.timestamp + '</div><br/>' + 
 					'<div>Time-Kafka: ' + document.createdAt +'</div><br/>' + 
 					'<div>Time-Meteor: ' + time + '</div><br/>' + 
-					'<div>Kafka - Meteor: ' + (time - document.createdAt)/1000 + ' seg </div><br/>' + 
+					'<div>Kafka - Meteor: ' + (time - document.createdAt)/1000 + ' seg </div><br/>' +
+					'<div>Mosquitto - Meteor: ' + (time - document.timestamp)/1000 + ' seg </div><br/>' +					
 					'</div>';
 					var infowindow = new google.maps.InfoWindow({
 						content: contentString

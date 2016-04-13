@@ -8,16 +8,32 @@ if (Meteor.isClient) {
             var d = new Date();
             Markers.find({
                 createdAt: {
-                    $gte: d.getTime()
+                    $gte: Date.now()
                 }
             }).observe({
                 added: function (document) {
+					var time = Date.now();
+					var contentString = '<div style="width:300px;">' + 
+					'<div>Time-Mosquitto:' + document.timeM + '</div><br/>' + 
+					'<div>Time-Kafka: ' + document.createdAt +'</div><br/>' + 
+					'<div>Time-Meteor: ' + time + '</div><br/>' + 
+					'<div>Kafka - Meteor: ' + (time - document.createdAt)/1000 + ' seg </div><br/>' + 
+					'</div>';
+					var infowindow = new google.maps.InfoWindow({
+						content: contentString
+					});
+					//hello
                     var marker = new google.maps.Marker({
                         animation: google.maps.Animation.DROP,
                         position: new google.maps.LatLng(document.lat, document.log),
-                        map: map.instance,
+                        map: map.instance,						
+						draggable: true,
                         id: document._id
                     });
+					
+					marker.addListener('click', function() {
+						infowindow.open(map.instance, marker);
+					});
 
                     GoogleMaps.maps.exampleMap.instance.setCenter(
                         new google.maps.LatLng(document.lat, document.log)
